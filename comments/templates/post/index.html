@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for post in posts %}
+    <h1>{{post.title}}</h1>
+<hr>
+    <form method="post" action="{% url 'comment.send' post.id %}">
+        {% csrf_token %}
+        <textarea class="form-control" name="content"></textarea>
+        <button class="btn btn-primary" type="submit"> Gönder </button>
+    </form>
+    <h3>YORUMLAR</h3>
+    {% for comment in post.comment_set.all %}
+        <h5>{{comment.user}}</h5>
+        <p>{{comment.content}}</p>
+    {% endfor %}
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,7 @@
+/venv
+/.idea
+__pycache__/
+*.py[cod]
+*$py.class
+db.sqlite3
+local_settings.py
