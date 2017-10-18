@@ -1,17 +1,56 @@
 {% extends 'base.html' %}
+
+
 {% block content %}
-{% for post in posts %}
-    <h1>{{post.title}}</h1>
-<hr>
-    <form method="post" action="{% url 'comment.send' post.id %}">
+    <!-- Yorum Yap -->
+    {% for post in posts %}
+<div class="container">
+    <div class="comments-container">
+		<div class="form-group">
+            <form method="post" action="{% url 'comment.send' post.id %}">
         {% csrf_token %}
-        <textarea class="form-control" name="content"></textarea>
-        <button class="btn btn-primary" type="submit"> Gönder </button>
-    </form>
-    <h3>YORUMLAR</h3>
-    {% for comment in post.comment_set.all %}
-        <h5>{{comment.user}}</h5>
-        <p>{{comment.content}}</p>
+                <label for="textarea">Yorum Yap</label>
+                <textarea class="form-control textarea" name="content" rows="3"></textarea>
+                <div class="form-check">
+                    <label class="form-check-label"> <!-- Buralar hep sıkıntı -->
+                        <input class="form-check-input" type="checkbox" name="hide_user" value="" {% if hide_user.published %}checked{% endif %}>
+                        Adımı Gizle
+                    </label>
+                    <button type="submit" class="btn btn-primary send-button">Submit</button>
+                </div>
+            </form>
+        </div>
+	</div>
+	<!-- Yorumlar -->
+    <div class="comments-container">
+		<h1>Yorumlar <a href="http://genomize.com">genomize.com</a></h1>
+        {% for comment in post.comment_set.all %}
+            {% if post.comment %}Henüz Yorum Yapılmamış.{% endif %} <!-- Burası yanlış -->
+		<ul id="comments-list" class="comments-list">
+			<li>
+				<div class="comment-main-level">
+					<!-- Avatar -->
+					<div class="comment-avatar"><img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt=""></div>
+					<!-- Contenedor del Comentario -->
+					<div class="comment-box">
+						<div class="comment-head">
+							<h6 class="comment-name active-passive">{{comment.user}}</h6>
+							<span>{{comment.publishDate}}</span>
+							<!-- sonra yapılacak <i class="fa fa-reply"></i>-->
+							<i class="fa fa-thumbs-up" aria-hidden="true"></i>
+						</div>
+						<div class="comment-content">
+							<p>{{comment.content}}</p>
+						</div>
+					</div>
+				</div>
+				<!-- Yorumlara Cevap Yaz(Şuan için boş) -->
+			</li>
+		</ul>
+        {% endfor %}
+	</div>
+</div>
     {% endfor %}
-{% endfor %}
+
 {% endblock %}
+

@@ -11,13 +11,14 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-
 class Comment(models.Model):
-    status =models.BooleanField(default=1)
+    hide_user =models.BooleanField(default=0)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
     content = models.TextField()
     publishDate = models.DateTimeField()
+    def __str__(self):
+        return self.content
 
 
 class CommentLike(models.Model):
