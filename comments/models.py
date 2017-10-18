@@ -12,7 +12,7 @@ class Post(models.Model):
         return self.title
 
 class Comment(models.Model):
-    hide_user =models.BooleanField(default=0)
+    hide_user =models.BooleanField(default=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
     content = models.TextField()
