@@ -7,7 +7,7 @@
     <div class="container">
         <div class="comments-container">
             <div class="form-group">
-                <form method="post" class="formmethod" action="{% url 'comment.send' post.id %}">
+                <form method="post" class="ajax-form formmethod" action="{% url 'comment.send' post.id %}">
                     {% csrf_token %}
                     <label for="textarea">Comment now!</label>
                     <textarea class="form-control textarea" name="content" rows="3"></textarea>
@@ -37,6 +37,7 @@
                                 <h6 class="comment-name active-passive">{{comment.user}}</h6>
                                 <span>{{comment.publishDate}}</span>
                                 <!-- sonra yapılacak <i class="fa fa-reply"></i>-->
+                                <i class="fa fa-trash" aria-hidden="true"></i>
                                 <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                             </div>
                             <div class="comment-content">
