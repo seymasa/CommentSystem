@@ -235,6 +235,9 @@ body {
 	border-radius: 3px;
 }
 
+.commentNone{
+	padding-top: 10px;
+}
 .send-button{
 	margin: 10px 0;
 }

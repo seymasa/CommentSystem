@@ -1,58 +1,59 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-    <div class="row">
-    {% for post in posts %}
-    <!-- Yorum Yap -->
-
-<div class="container">
-    <div class="comments-container">
-		<div class="form-group">
-            <form method="post" class="formmethod" action="{% url 'comment.send' post.id %}">
-        {% csrf_token %}
-                <label for="textarea">Yorum Yap</label>
-                <textarea class="form-control textarea" name="content" rows="3"></textarea>
-                <div class="form-check">
-                    <label class="form-check-label"> <!-- Buralar hep sıkıntı -->
-                        <input class="form-check-input" type="checkbox" name="hide_user" value="ok">
-                        Adımı Gizle
-                    </label>
-                    <button type="submit" class="btn btn-primary send-button">Submit</button>
-                </div>
-            </form>
+<div class="row">
+{% for post in posts %}
+<!-- Yorum Yap -->
+    <div class="container">
+        <div class="comments-container">
+            <div class="form-group">
+                <form method="post" class="formmethod" action="{% url 'comment.send' post.id %}">
+                    {% csrf_token %}
+                    <label for="textarea">Comment now!</label>
+                    <textarea class="form-control textarea" name="content" rows="3"></textarea>
+                    <div class="form-check">
+                        <label class="form-check-label"> <!-- Buralar hep sıkıntı -->
+                            <input class="form-check-input" type="checkbox" name="hide_user" value="ok">
+                            Hide Step
+                        </label>
+                        <button type="submit" class="btn btn-primary send-button">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
-	</div>
-	<!-- Yorumlar -->
-    <div class="comments-container">
-		<h1>Yorumlar <a href="http://genomize.com">genomize.com</a></h1>
-        {% for comment in post.comment_set.all %}
-            {% if post.comment %}Henüz Yorum Yapılmamış.{% endif %} <!-- Burası yanlış -->
-		<ul id="comments-list" class="comments-list">
-			<li>
-				<div class="comment-main-level">
-					<!-- Avatar -->
-					<div class="comment-avatar"><img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt=""></div>
-					<!-- Contenedor del Comentario -->
-					<div class="comment-box">
-						<div class="comment-head">
-							<h6 class="comment-name active-passive">{{comment.user}}</h6>
-							<span>{{comment.publishDate}}</span>
-							<!-- sonra yapılacak <i class="fa fa-reply"></i>-->
-							<i class="fa fa-thumbs-up" aria-hidden="true"></i>
-						</div>
-						<div class="comment-content">
-							<p>{{comment.content}}</p>
-						</div>
-					</div>
-				</div>
-				<!-- Yorumlara Cevap Yaz(Şuan için boş) -->
-			</li>
-		</ul>
-        {% endfor %}
-	</div>
-</div>
-    {% endfor %}
+        <!-- Yorumlar -->
+        <div class="comments-container">
+            <h1>Comments <a href="http://genomize.com">genomize.com</a></h1>
+            {% if post.comment_set.count > 0 %}
+                {% for comment in post.comment_set.all %}
+                    <ul id="comments-list" class="comments-list">
+                        <li>
+                    <div class="comment-main-level">
+                        <!-- Avatar -->
+                        <div class="comment-avatar"><img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt=""></div>
+                        <!-- Contenedor del Comentario -->
+                        <div class="comment-box">
+                            <div class="comment-head">
+                                <h6 class="comment-name active-passive">{{comment.user}}</h6>
+                                <span>{{comment.publishDate}}</span>
+                                <!-- sonra yapılacak <i class="fa fa-reply"></i>-->
+                                <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                            </div>
+                            <div class="comment-content">
+                                <p>{{comment.content}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Yorumlara Cevap Yaz(Şuan için boş) -->
+                        </li>
+                    </ul>
+                {% endfor %}
+            {% else %}
+                <span class="commentNone"> no comments yet... </span>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
 </div>
 {% endblock %}
 
