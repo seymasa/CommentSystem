@@ -5,9 +5,9 @@
 {% for post in posts %}
 <!-- Yorum Yap -->
     <div class="container">
-        <div class="comments-container">
+        <div class="comments-container" >
             <div class="form-group">
-                <form method="post" class="ajax-form formmethod" action="{% url 'comment.send' post.id %}">
+                <form method="post" onsubmit="return false;" class="ajax-form formmethod" data-post-id="{{ post.id }}" action="{% url 'comment.send' post.id %}">
                     {% csrf_token %}
                     <label for="textarea">Comment now!</label>
                     <textarea class="form-control textarea" name="content" rows="3"></textarea>
@@ -22,7 +22,7 @@
             </div>
         </div>
         <!-- Yorumlar -->
-        <div class="comments-container">
+        <div class="comments-container" id="comments-{{ post.id }}">
             <h1>Comments <a href="http://genomize.com">genomize.com</a></h1>
             {% if post.comment_set.count > 0 %}
                 {% for comment in post.comment_set.all %}
