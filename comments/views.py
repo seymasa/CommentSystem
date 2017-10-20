@@ -8,17 +8,22 @@ def index(request):
     posts = Post.objects.all()
     return render(request, 'post/index.html', {'posts':posts})
 
-def comment(request,post_id):
 
-    now= datetime.now()
-    user = request.user
-    post = get_object_or_404(Post, pk=post_id)
-    #hide_user = request(default={'hide_user': False})
-    comment = Comment(content=request.POST.get("content"), user=user, post=post,publishDate=now)
-    comment.save()
+def comment(request, post_id):
     cevap = {}
-    cevap['status'] = True
-    cevap['comment'] = request.POST.get('content')
-    cevap['publishDate'] = comment.publishDate.strftime("%d.%m.%Y");
-    cevap['user'] = comment.user.username
+    if (request.POST.get("content") == None):
+        cevap['status'] = False
+        cevap['error'] = "Lütfen bir yorum giriniz..."
+    else:
+        now = datetime.now()
+        user = request.user
+        post = get_object_or_404(Post, pk=post_id)
+        # hide_user = request(default={'hide_user': False})
+        comment = Comment(content=request.POST.get("content"), user=user, post=post, publishDate=now)
+        comment.save()
+        cevap['status'] = True
+        cevap['comment'] = request.POST.get('content')
+        cevap['publishDate'] = comment.publishDate.strftime("%d.%m.%Y");
+        cevap['user'] = comment.user.username
+
     return HttpResponse(json.dumps(cevap), content_type="application/json")
