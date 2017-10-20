@@ -47,7 +47,6 @@ $(".ajax-form").submit(function(){
 			alert(result.error);
 		}
 
-
 		// Her şeyi eskisi gibi güzel olsun ^_^
 		button.prop('disabled', false);
 		textarea.prop('disabled', false);

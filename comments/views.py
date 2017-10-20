@@ -23,11 +23,8 @@ def comment(request, post_id):
         comment.save()
         cevap['status'] = True
         cevap['comment'] = request.POST.get('content')
-        cevap['publishDate'] = comment.publishDate.strftime("%d.%m.%Y");
+        cevap['publishDate'] = comment.publishDate.strftime("%d.%m.%Y %H:%M")
         cevap['user'] = comment.user.username
 
     return HttpResponse(json.dumps(cevap), content_type="application/json")
 
-
-
-"""comment girdikten sonra textarea nın silinmesi yapıldı ve boş girilmesi durumu kontrol edildi."""
