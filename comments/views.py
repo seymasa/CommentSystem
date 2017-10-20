@@ -11,9 +11,9 @@ def index(request):
 
 def comment(request, post_id):
     cevap = {}
-    if (request.POST.get("content") == None):
+    if (request.POST.get("content") == ""):
         cevap['status'] = False
-        cevap['error'] = "Lütfen bir yorum giriniz..."
+        cevap['error'] = "Please enter a comment ..."
     else:
         now = datetime.now()
         user = request.user
@@ -27,3 +27,7 @@ def comment(request, post_id):
         cevap['user'] = comment.user.username
 
     return HttpResponse(json.dumps(cevap), content_type="application/json")
+
+
+
+"""comment girdikten sonra textarea nın silinmesi yapıldı ve boş girilmesi durumu kontrol edildi."""

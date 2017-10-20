@@ -2,7 +2,6 @@ var commentsBox = $("")
 $(".ajax-form").submit(function(){
 	var url  = $(this).attr('action'); // Ajax isteğin gideceği adres
 	var data = $(this).serialize(); // Ajax ile gönderilecek verileri form daki elemanlardan alıyoruz (name=value) şeklinde.
-
 	var button   = $(this).find('button'); // Gönderilen formun içindeki butonu alalım
 	var textarea = $(this).find('textarea'); // Gönderilen formun içindeki textarea alalım
 	var postId   = $(this).data('post-id'); // Hangi yorum listesine yorumu ekleyeceğimizi öğrenelim.
@@ -11,7 +10,6 @@ $(".ajax-form").submit(function(){
 	button.prop('disabled', true);
 	textarea.prop('disabled', true);
 	button.html("Gönderiliyor...");
-
 	// Ajax isteğini başlatalım.
 	$.ajax({
 		url: url,
@@ -45,14 +43,16 @@ $(".ajax-form").submit(function(){
 
 			// elementimizi ekleyelim.
 			commentsBox.append(newComment);
-
-			// Her şeyi eskisi gibi güzel olsun ^_^
-			button.prop('disabled', false);
-			textarea.prop('disabled', false);
-			button.html('Yorum Yap');
 		} else {
 			alert(result.error);
 		}
+
+
+		// Her şeyi eskisi gibi güzel olsun ^_^
+		button.prop('disabled', false);
+		textarea.prop('disabled', false);
+		textarea.val("");
+		button.html('Submit');
 	});
 	return false;
 });
