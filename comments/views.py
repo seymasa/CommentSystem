@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import Post, Comment
 from datetime import datetime
+from tzlocal import get_localzone
 # Create your views here.
 def index(request):
     posts = Post.objects.all()
@@ -14,10 +15,16 @@ def comment(request, post_id):
         return JsonResponse({'status': False,
                              'error': "Please enter a comment ..."})
 
-    time_control = datetime.now() - post.comment_set.filter(user_id=request.user.id).order_by(Comment.publishDate)[0].publishDate
-    if time_control.seconds <= 15:
-        return JsonResponse({'status': False,
-                             'error': "Try commenting again in 15 seconds!"})
+    lastComments = post.comment_set.filter(user_id=request.user.id).order_by('-publishDate')
+    if len(lastComments) > 0:
+        local_tz = get_localzone()
+        now = datetime.now(local_tz)
+        lastComment = lastComments[0]
+        lastDate = lastComment.publishDate
+        time_control = now - lastDate
+        if time_control.seconds <= 15:
+            return JsonResponse({'status': False,
+                                 'error': "Try commenting again in 15 seconds!"})
 
     content = request.POST.get("content")
     comment = Comment(content=content, user=request.user, post=post, publishDate=datetime.now())
@@ -41,5 +48,4 @@ Yapılacak İşlemler
    3.a.2) uygunsa devam et
   3.b) çekemediysem bir şeyi kontrol etmeye gerek yok yorumu kaydetmeye devam et
 4) yeni yorumu kaydet
-1085165	IBAN TR30 00 06 40 00 00 12 50 01 08 51 65
 '''
