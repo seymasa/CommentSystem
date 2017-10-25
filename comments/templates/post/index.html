@@ -39,7 +39,7 @@
                                 {% else %}
                                     <h6 class="comment-name active-passive">Guest</h6>
                                 {% endif %}
-                                <span>{{comment.publishDate}}</span>
+                                <span>{{comment.publishDate|date:"N d, Y, H:i A" }}</span>
                                 <!-- sonra yapılacak <i class="fa fa-reply"></i>-->
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                 <i class="fa fa-thumbs-up" aria-hidden="true"></i>

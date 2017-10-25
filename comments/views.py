@@ -34,7 +34,7 @@ def comment(request, post_id):
     comment.save()
     return JsonResponse({'status': True,
                          'comment': content,
-                         'publishDate': comment.publishDate.strftime("%d.%m.%Y %H:%M"),
+                         'publishDate': comment.publishDate.strftime("%b. %d, %Y, %H:%M %p"),
                          'user':  "Guest" if comment.hide_user  else comment.user.username })
 
 '''
