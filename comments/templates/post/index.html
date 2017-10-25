@@ -34,7 +34,11 @@
                         <!-- Contenedor del Comentario -->
                         <div class="comment-box">
                             <div class="comment-head">
-                                <h6 class="comment-name active-passive">{{comment.user}}</h6>
+                                {% if comment.hide_user == False %}
+                                    <h6 class="comment-name active-passive">{{comment.user}}</h6>
+                                {% else %}
+                                    <h6 class="comment-name active-passive">Guest</h6>
+                                {% endif %}
                                 <span>{{comment.publishDate}}</span>
                                 <!-- sonra yapılacak <i class="fa fa-reply"></i>-->
                                 <i class="fa fa-trash" aria-hidden="true"></i>

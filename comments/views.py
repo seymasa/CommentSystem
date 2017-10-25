@@ -27,7 +27,10 @@ def comment(request, post_id):
                                  'error': "Try commenting again in 15 seconds!"})
 
     content = request.POST.get("content")
-    comment = Comment(content=content, user=request.user, post=post, publishDate=datetime.now())
+    hide_user_status = False
+    if request.POST.get('hide_user'):
+        hide_user_status =True
+    comment = Comment(content=content, user=request.user, post=post, publishDate=datetime.now(), hide_user= hide_user_status)
     comment.save()
     return JsonResponse({'status': True,
                          'comment': content,
