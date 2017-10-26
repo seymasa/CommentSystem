@@ -14,6 +14,9 @@ def comment(request, post_id):
     if request.POST.get("content") == "":
         return JsonResponse({'status': False,
                              'error': "Please enter a comment ..."})
+    """"
+    if request.POST.get('delete'):
+        obj.delete()"""
 
     lastComments = post.comment_set.filter(user_id=request.user.id).order_by('-publishDate')
     if len(lastComments) > 0:

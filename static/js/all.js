@@ -34,7 +34,6 @@ $(".ajax-form").submit(function(){
 								newComment += "<span>"+result.publishDate+"</span>";
 								newComment += '<i class="fa fa-trash" aria-hidden="true"></i><i class="fa fa-thumbs-up" aria-hidden="true"></i>';
 							newComment += "</div>";
-
 							newComment += "<div class='comment-content'><p>"+result.comment+"</p></div>";
 						newComment += "</div>";
 					newComment += "</div>";
