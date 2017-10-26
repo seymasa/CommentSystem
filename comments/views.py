@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .models import Post, Comment
+from .models import Post, Comment, CommentLike
 from datetime import datetime
 from tzlocal import get_localzone
 # Create your views here.
@@ -40,18 +40,16 @@ def comment(request, post_id):
                          'publishDate': comment.publishDate.strftime("%b. %d, %Y, %H:%M %p"),
                          'user':  "Guest" if comment.hide_user  else comment.user.username })
 
-'''
-Bana Gelen Veriler:
-- post_id
-- user
-
-Yapılacak İşlemler
-1) post_id'yi kullanarak post modeline eriş
-2) o post modeline ait yorumlardan user_id'si bana gelen user olanın yorumlarını tarihe göre büyükten küçüğe sırala ve ilkini çek
-3) çekebildim mi?
- 3.a) çekebildiysem o yorumun tarihi ile benim şuanki tarih saatimi karşılaştır ve uygun mu bak?
-   3.a.1) uygun değilse hata döndür
-   3.a.2) uygunsa devam et
-  3.b) çekemediysem bir şeyi kontrol etmeye gerek yok yorumu kaydetmeye devam et
-4) yeni yorumu kaydet
-'''
+"""def comment_detail(request, id):
+    comm = get_object_or_404(Comment, pk=id)
+    user_likes_this = comm.like_set.filter(user=request.user) and True or False
+# begeni sayısını saydırma olayı
+c = Comment.objects.get()
+number_of_likes = c.like_sett.all().count()
+# begeni sayısını görüntüleme olayıdef like(request, picture_id):
+new_like, created = CommentLike.objects.get_or_create(user=request.user, comment_id=comment_id)
+if not created:
+    # the user already liked this picture before
+else:
+    # oll korrekt
+    https: // stackoverflow.com / questions / 15407985 / django - like - button"""
