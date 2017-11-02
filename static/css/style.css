@@ -175,7 +175,7 @@ body {
 	border-radius: 4px 4px 0 0;
 }
 
-.comment-box .comment-head i {
+.comment-box .comment-head .like-button, .comment-box .comment-head .delete-button {
 	float: right;
 	margin-left: 14px;
 	position: relative;
@@ -209,6 +209,10 @@ body {
 	font-size: 13px;
 	position: relative;
 	top: 1px;
+}
+
+.comment-box .comment-head .like-button span {
+	float: none;
 }
 
 .comment-box .comment-content {
@@ -269,3 +273,18 @@ textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
 	.reply-list .comment-box {
 		width: 320px;
 	}}
+
+.like-button.liked {
+	color: pink !important;
+}
+.like-button.liked:active, .like-button.liked:hover, .like-button.liked:focus {
+	color: red !important;
+	text-decoration: none;
+}
+.like-button.not-liked {
+	color: lightblue !important;
+}
+.like-button.not-liked:active, .like-button.not-liked:hover, .like-button.not-liked:focus {
+	color: blue !important;
+	text-decoration: none;
+}

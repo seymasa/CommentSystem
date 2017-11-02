@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .models import Post, Comment
+from .models import Post, Comment, CommentLike
 from datetime import datetime
 from tzlocal import get_localzone
+from django.urls import reverse
 # Create your views here.
 
 def index(request):
@@ -34,11 +35,31 @@ def comment(request, post_id):
     comment = Comment(content=content, user=request.user, post=post, publishDate=datetime.now(), hide_user= hide_user_status)
     comment.save()
     return JsonResponse({'status': True,
+                         'id': comment.id,
+                         # Yeni eklenen yorumların düzgün HTML i olmadığı için yeni eklenen bir yorum silinemiyor....
+                         'deleteUrl': '/comments/comment-delete/'+str(comment.id)+'/',
                          'comment': content,
                          'publishDate': comment.publishDate.strftime("%b. %d, %Y, %H:%M %p"),
                          'user':  "Guest" if comment.hide_user  else comment.user.username })
 
 def comment_delete(request, post_id):
     comm = get_object_or_404(Comment, pk=post_id)
-    comm.delete()
-    return JsonResponse({'status':False})
+    if request.user == comm.user :
+        comm.delete()
+
+    return JsonResponse({"status": True})
+
+def comment_like(request):
+    comm = get_object_or_404(Comment, pk=request.POST.get('comment_id'))
+    total = comm.commentlike_set.count()
+    if comm.userLiked(request):
+        like = CommentLike.objects.filter(user=request.user, comment=comm).first()
+        like.delete()
+        total-=1
+        result = {"status": True, "like": False, "total": total}
+    else:
+        like = CommentLike(liked=True,comment=comm,user=request.user)
+        like.save()
+        total+=1
+        result = {"status": True, "like": True, "total": total}
+    return JsonResponse(result)

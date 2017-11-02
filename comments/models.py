@@ -20,6 +20,13 @@ class Comment(models.Model):
     def __str__(self):
         return self.content
 
+    def userLiked(self, request):
+        liked = False
+        for like in self.commentlike_set.all() :
+            if like.user == request.user:
+                liked = True
+        return liked
+
 
 class CommentLike(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)

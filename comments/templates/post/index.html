@@ -21,12 +21,13 @@
                 </form>
             </div>
         </div>
+        {% load comment %}
         <!-- Yorumlar -->
         <div class="comments-container" id="comments-{{ post.id }}">
             <h1>Comments <a href="http://genomize.com">genomize.com</a></h1>
             {% if post.comment_set.count > 0 %}
                 {% for comment in post.comment_set.all %}
-                    <ul id="comments-list" class="comments-list">
+                    <ul id="comments-list" data-id="{{ comment.id }}" class="comments-list">
                         <li>
                     <div class="comment-main-level">
                         <!-- Avatar -->
@@ -41,8 +42,15 @@
                                 {% endif %}
                                 <span>{{comment.publishDate|date:"N d, Y, H:i A" }}</span>
                                 <!-- sonra yapılacak <i class="fa fa-reply"></i>-->
-                                <i><a href="{% url "comment-delete" post_id=comment.id %}" id="delete-button" data-id="{{ comment.id }}" class="fa fa-trash delete-button" aria-hidden="true"></a></i>
-                                <i><a href="" class="fa fa-thumbs-up" aria-hidden="true"></a></i>
+                                {% if request.user == comment.user %}
+                                <a href="{% url "comment-delete" post_id=comment.id %}" data-id="{{ comment.id }}" class="delete-button" aria-hidden="true">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                                {% endif %}
+                                <a href="{% url "comment-like" %}" data-id="{{ comment.id }}" aria-hidden="true" class="like-button {% if comment|userliked:request %} liked {% else %} not-liked {% endif %}">
+                                    <i class="fa {% if comment|userliked:request %} fa-thumbs-down {% else %} fa-thumbs-up {% endif %}"></i>
+                                    <span>{{ comment.commentlike_set.count }}</span>
+                                </a>
                             </div>
                             <div class="comment-content">
                                 <p>{{comment.content}}</p>
