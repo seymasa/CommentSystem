@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .models import Post, Comment, CommentLike
+from .models import Post, Comment
 from datetime import datetime
 from tzlocal import get_localzone
 # Create your views here.
+
 def index(request):
     posts = Post.objects.all()
     return render(request, 'post/index.html', {'posts':posts})
@@ -14,9 +15,6 @@ def comment(request, post_id):
     if request.POST.get("content") == "":
         return JsonResponse({'status': False,
                              'error': "Please enter a comment ..."})
-    """"
-    if request.POST.get('delete'):
-        obj.delete()"""
 
     lastComments = post.comment_set.filter(user_id=request.user.id).order_by('-publishDate')
     if len(lastComments) > 0:
@@ -40,16 +38,7 @@ def comment(request, post_id):
                          'publishDate': comment.publishDate.strftime("%b. %d, %Y, %H:%M %p"),
                          'user':  "Guest" if comment.hide_user  else comment.user.username })
 
-"""def comment_detail(request, id):
-    comm = get_object_or_404(Comment, pk=id)
-    user_likes_this = comm.like_set.filter(user=request.user) and True or False
-# begeni sayısını saydırma olayı
-c = Comment.objects.get()
-number_of_likes = c.like_sett.all().count()
-# begeni sayısını görüntüleme olayıdef like(request, picture_id):
-new_like, created = CommentLike.objects.get_or_create(user=request.user, comment_id=comment_id)
-if not created:
-    # the user already liked this picture before
-else:
-    # oll korrekt
-    https: // stackoverflow.com / questions / 15407985 / django - like - button"""
+def comment_delete(request, post_id):
+    comm = get_object_or_404(Comment, pk=post_id)
+    comm.delete()
+    return JsonResponse({'status':False})

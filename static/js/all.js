@@ -46,11 +46,29 @@ $(".ajax-form").submit(function(){
 			alert(result.error);
 		}
 
-		// Her şeyi eskisi gibi güzel olsun ^_^
+		// Her şeyi eskisi gibi güzel olsun neolursun ^_^
 		button.prop('disabled', false);
 		textarea.prop('disabled', false);
 		textarea.val("");
 		button.html('Submit');
 	});
 	return false;
+
+});
+$(".delete-button").bind('click', function(){
+  var button = this;
+  var adres  = button.attr('href');
+  var id     = button.data('id');
+  $.ajax({
+     method: 'POST',
+     dataType: 'JSON',
+     url: adres
+	}).done(function(data){
+	  if(data.status){
+		  alert("Silme işlemi yapıldı");
+		  $("#comment-"+id).remove();
+	  } else {
+		 alert(data.error);
+	  }
+	})
 });
